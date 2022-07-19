@@ -4,7 +4,6 @@ const MainHeaderContainer = styled.div``;
 const MainHeader = styled.div`
   display: grid;
   grid-template-areas: ". .";
-
   box-sizing: border-box;
   justify-content: space-between;
   background: #24292f;
