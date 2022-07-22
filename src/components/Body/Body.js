@@ -8,7 +8,15 @@ const CountryList = Countries;
 const Body = () => {
   return (
     <Main>
-      <Input option={CountryList} label="Mining country" />
+      <Input
+        type="select"
+        option={CountryList}
+        label=" --Choose Mining Country--"
+      />
+      <Input type="text" label="Hashing Power" />
+      <Input type="text" label="Power Consumption" />
+      <Input type="text" label="Cost Per KWh" />
+      <Input type="text" label="Pool Fee" />
     </Main>
   );
 };

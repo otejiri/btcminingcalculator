@@ -1,13 +1,14 @@
 import React, { Fragment, useState } from "react";
-import { SelectInput } from "./Input.styled";
+import { InputContainer, SelectInput, TextInput } from "./Input.styled";
 
 const Input = (props) => {
   const [selectOption, setSelectOption] = useState(props.option);
-  const [selectLabel, setSelectLabel] = useState(props.label);
+  const [label, setLabel] = useState(props.label);
+  const [inputValue] = useState(props.inputValue);
 
   if (!selectOption) {
     setSelectOption([]);
-    setSelectLabel("Loading...");
+    setLabel("Loading...");
   }
 
   const option = selectOption?.map((opt) => {
@@ -20,12 +21,21 @@ const Input = (props) => {
   });
   return (
     <Fragment>
-      <SelectInput>
-        <option value="" hidden>
-          {selectLabel}
-        </option>
-        {option}
-      </SelectInput>
+      <InputContainer>
+        {props.type == "select" && (
+          <SelectInput offset={-150}>
+            <option value="" hidden>
+              {label}
+            </option>
+            {option}
+          </SelectInput>
+        )}
+      </InputContainer>
+      {props.type == "text" && (
+        <InputContainer>
+          <TextInput placeholder={label} value={inputValue} />
+        </InputContainer>
+      )}
     </Fragment>
   );
 };
