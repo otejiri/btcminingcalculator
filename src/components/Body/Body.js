@@ -13,6 +13,7 @@ const Body = () => {
         option={CountryList}
         label=" --Choose Mining Country--"
       />
+      <Input type="select" option={CountryList} label=" --Select Currency--" />
       <Input type="text" label="Hashing Power" />
       <Input type="text" label="Power Consumption" />
       <Input type="text" label="Cost Per KWh" />

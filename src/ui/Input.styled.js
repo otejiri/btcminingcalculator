@@ -2,8 +2,13 @@ import styled from "styled-components";
 
 const InputContainer = styled.div`
   width: 100%;
-  padding: 5px 0px;
+  margin: 15px 5px;
 `;
+
+const LabelContainer = styled.div`
+  margin: 5px 15px;
+`;
+const InputLabel = styled.label``;
 
 const SelectInput = styled.select`
   padding: 10px;
@@ -11,6 +16,7 @@ const SelectInput = styled.select`
   height: 50px;
   width: 100%;
   border: 0px solid transparent;
+  font-size: 24px;
   option {
     color: black;
     background: white;
@@ -32,9 +38,10 @@ const TextInput = styled.input`
   box-sizing: border-box;
   height: 50px;
   border: 0px solid transparent;
+  font-size: 24px;
   &:focus {
     border-left: 5px solid brown;
     outline: none;
   }
 `;
-export { InputContainer, SelectInput, TextInput };
+export { InputContainer, SelectInput, LabelContainer, InputLabel, TextInput };
