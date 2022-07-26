@@ -4,12 +4,17 @@
   "description": "Backend for bitcoin mining calculator",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "s5331964@bournemouth.ac.uk",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }
