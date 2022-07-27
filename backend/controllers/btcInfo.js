@@ -19,13 +19,18 @@ const btcInfo = async () => {
 };
 
 exports.getProfitability = async (req, res, next) => {
-  const resp = apiRes;
+  const r = apiRes;
   // const profitabilty = new Profitability(await btcInfo());
-  const profitabilty = new Profitability(resp);
+  const profitabilty = new Profitability(r);
 
-  const prof = profitabilty.getProfit();
+  const profit = profitabilty.getProfit();
 
-  console.log(prof);
+  const response = {
+    status: true,
+    data: {
+      profit: profit,
+    },
+  };
 
-  res.status(200).send({ message: prof });
+  res.status(200).send(response);
 };

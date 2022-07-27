@@ -11,6 +11,7 @@ const Input = (props) => {
   const [selectOption, setSelectOption] = useState(props.option);
   const [label, setLabel] = useState(props.label);
   const [inputValue] = useState(props.inputValue);
+  const [selectName] = useState(props.name);
 
   if (props.type === "select" && !selectOption) {
     setSelectOption([]);
@@ -18,10 +19,21 @@ const Input = (props) => {
   }
 
   const option = selectOption?.map((opt) => {
+    let val;
+    let name;
+    if (selectName.toLowerCase() === "country") {
+      val = opt.code;
+      name = opt.name;
+    }
+
+    if (selectName.toLowerCase() === "currency") {
+      val = opt;
+      name = opt;
+    }
     return (
-      <option value={opt.code} key={opt.code}>
+      <option value={val} key={val}>
         {" "}
-        {opt.name}{" "}
+        {name}{" "}
       </option>
     );
   });
@@ -32,7 +44,7 @@ const Input = (props) => {
       {props.type == "select" && (
         <InputContainer>
           <LabelContainer>
-            <InputLabel>{label}</InputLabel>
+            <InputLabel>{selectName}</InputLabel>
           </LabelContainer>
 
           <SelectInput offset={-150}>
