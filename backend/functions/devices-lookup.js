@@ -10707,11 +10707,18 @@ module.exports.getDevices = async (value) => {
           const sp = data[j]["val"];
           if (speed === sp) {
             let num = data[j]["no"];
-            let info = devicesArray[i];
-            let details = ob[key];
+            let info = {
+              name: devicesArray[i]["name"],
+              speed: ob[key]["speed"],
+              power: ob[key]["power"],
+              url: devicesArray[i]["url"],
+              type: devicesArray[i]["type"],
+              brand: devicesArray[i]["brand"],
+              algorithm: key,
+              specs: devicesArray[i]["specs"],
+            };
             deviceData.push({
               totalHash: sumWithInitial,
-              details: details,
               info: info,
               num: num,
             });

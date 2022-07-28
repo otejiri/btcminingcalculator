@@ -31,5 +31,6 @@ exports.getProfitability = async (req, res, next) => {
       devices: devices,
     },
   };
+  console.log(response);
   res.status(200).send(response);
 };
