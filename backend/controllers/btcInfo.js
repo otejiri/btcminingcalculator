@@ -1,36 +1,35 @@
 const axios = require("axios");
+const { Converter } = require("../../frontend/src/common/hash-converter");
+const { getDevices } = require("../functions/devices-lookup");
 const Profitability = require("../functions/profitability");
 const { apiRes } = require("../res");
 
 require("dotenv").config();
 
-const btcInfo = async () => {
-  try {
-    return await axios
-      .get(
-        `http://www.coinwarz.com/v1/api/coininformation/?apikey=${process.env.COINWARZ_API_KEY}&cointag=BTC`
-      )
-      .then((res) => {
-        return res.data.Data;
-      });
-  } catch (error) {
-    return error;
-  }
+const getList = async (hashPower) => {
+  return getDevices(hashPower);
 };
 
 exports.getProfitability = async (req, res, next) => {
+  const profitAmount = req.query.profit;
+
   const r = apiRes;
+
   // const profitabilty = new Profitability(await btcInfo());
-  const profitabilty = new Profitability(r);
+  const profitabilty = new Profitability(r, profitAmount);
 
-  const profit = profitabilty.getProfit();
+  const hashPower = profitabilty.getProfit();
+  const convertedHashPower = parseFloat(
+    Converter(hashPower, "th", "h")
+  ).toFixed(2);
 
+  const devices = await getList(hashPower);
   const response = {
     status: true,
     data: {
-      profit: profit,
+      hashPower: convertedHashPower,
+      devices: devices,
     },
   };
-
   res.status(200).send(response);
 };

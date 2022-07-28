@@ -1,3 +1,8 @@
+const {
+  default: converter,
+  Converter,
+} = require("../../frontend/src/common/hash-converter");
+
 const devicesArray = [
   {
     id: "61188f24396807ba7ca38919a158766de935852e",
@@ -10625,57 +10630,58 @@ const devicesArray = [
   },
 ];
 
-const array = [];
-for (let i = 0; i < devicesArray.length; i++) {
-  const ob = devicesArray[i]["algorithms"];
-  for (var key in ob) {
-    if (ob.hasOwnProperty(key)) {
-      const speed = ob[key]["speed"];
-      //   if (speed === 67608000000) {
-      //     console.log(devicesArray[i]);
-      //     console.log(ob[key]);
-      //   }
-      array.push(speed);
-    }
-  }
-}
-
-const numOfTimes = [];
-const remainder = [];
-
-const val = [];
-const data = [];
-
-let initialValue = 78000000000;
-let diff = true;
-
-const modulo = () => {
-  for (let i = 0; i < array.length; i++) {
-    let num = initialValue / array[i];
-    let rem = initialValue % array[i];
-
-    if (num >= 1) {
-      numOfTimes.push(num);
-      remainder.push(rem);
-      val.push({ val: array[i], no: Math.floor(num) });
+module.exports.getDevices = async (value) => {
+  const array = [];
+  for (let i = 0; i < devicesArray.length; i++) {
+    const ob = devicesArray[i]["algorithms"];
+    for (var key in ob) {
+      if (ob.hasOwnProperty(key)) {
+        const speed = Converter(ob[key]["speed"], "th", "h");
+        //   if (speed === 67608000000) {
+        //     console.log(devicesArray[i]);
+        //     console.log(ob[key]);
+        //   }
+        array.push(speed);
+      }
     }
   }
 
-  let minTimes = Math.min(...numOfTimes);
-  let index = numOfTimes.indexOf(minTimes);
-  let valueLeft = remainder[index];
+  const numOfTimes = [];
+  const remainder = [];
 
-  if (valueLeft === initialValue) {
-    diff = false;
-    return false;
-  }
-  data.push(val[index]);
-  initialValue = valueLeft;
-};
+  const val = [];
+  const data = [];
 
-const getDevices = () => {
+  let diff = true;
+  let hashPower = 0;
+
+  hashPower = Converter(value, "th", "h");
+  const modulo = async () => {
+    for (let i = 0; i < array.length; i++) {
+      let num = hashPower / array[i];
+      let rem = hashPower % array[i];
+
+      if (num >= 1) {
+        numOfTimes.push(num);
+        remainder.push(rem);
+        val.push({ val: array[i], no: Math.floor(num) });
+      }
+    }
+
+    let minTimes = Math.min(...numOfTimes);
+    let index = numOfTimes.indexOf(minTimes);
+    let valueLeft = remainder[index];
+
+    if (valueLeft === hashPower) {
+      diff = false;
+      return false;
+    }
+    data.push(val[index]);
+    hashPower = valueLeft;
+  };
+
   while (diff) {
-    modulo();
+    await modulo();
   }
   const deviceData = [];
   const initialValue = 0;
@@ -10683,10 +10689,11 @@ const getDevices = () => {
   const hash = [];
 
   for (let k = 0; k < data.length; k++) {
-    hash.push(data[k]["val"]);
+    hash.push(data[k]["val"] * data[k]["no"]);
   }
   const sumWithInitial = hash.reduce(
-    (previousValue, currentValue) => previousValue + currentValue,
+    (previousValue, currentValue) =>
+      parseInt(previousValue) + parseInt(currentValue),
     initialValue
   );
 
@@ -10694,7 +10701,8 @@ const getDevices = () => {
     const ob = devicesArray[i]["algorithms"];
     for (var key in ob) {
       if (ob.hasOwnProperty(key)) {
-        const speed = ob[key]["speed"];
+        s = ob[key]["speed"];
+        const speed = Converter(s, "th", "h");
         for (let j = 0; j < data.length; j++) {
           const sp = data[j]["val"];
           if (speed === sp) {
@@ -10714,5 +10722,3 @@ const getDevices = () => {
   }
   return deviceData;
 };
-
-export default getDevices;

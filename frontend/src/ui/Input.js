@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   InputContainer,
   InputLabel,
@@ -10,13 +10,20 @@ import {
 const Input = (props) => {
   const [selectOption, setSelectOption] = useState(props.option);
   const [label, setLabel] = useState(props.label);
-  const [inputValue] = useState(props.inputValue);
+  const [textInputValue, setTextInputValue] = useState("");
   const [selectName] = useState(props.name);
 
   if (props.type === "select" && !selectOption) {
     setSelectOption([]);
     setLabel("Loading...");
   }
+
+  const onTextInputChange = (e) => {
+    props.textInputHandler(e.target.value);
+    setTextInputValue(e.target.value);
+  };
+
+  useEffect(() => {}, [textInputValue]);
 
   const option = selectOption?.map((opt) => {
     let val;
@@ -64,7 +71,7 @@ const Input = (props) => {
           <LabelContainer>
             <InputLabel>{label}</InputLabel>
           </LabelContainer>
-          <TextInput value={inputValue} />
+          <TextInput value={textInputValue} onChange={onTextInputChange} />
         </InputContainer>
       )}
 

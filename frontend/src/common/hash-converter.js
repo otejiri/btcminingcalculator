@@ -1,3 +1,4 @@
+// hashrate converter units
 const fmt = {
   h: 1,
   kh: 1e-3,
@@ -8,6 +9,8 @@ const fmt = {
   eh: 1e-18,
   zh: 1e-1,
 };
+
+// long decimals to string
 function toPlainString(num) {
   return ("" + +num).replace(
     /(-?)(\d*)\.?(\d*)e([+-]\d+)/,
@@ -18,9 +21,11 @@ function toPlainString(num) {
     }
   );
 }
-const converter = (newUnit, currUnit) => {
+
+// hashrate converter
+module.exports.Converter = (value, newUnit, currUnit) => {
   if ((newUnit || "gh") in fmt) {
-    const val = 24;
+    const val = value;
     const hash = val / fmt[currUnit];
     const convertedHash = toPlainString(hash * fmt[newUnit]);
     return convertedHash;
@@ -28,5 +33,3 @@ const converter = (newUnit, currUnit) => {
 
   return 1;
 };
-
-export default converter;
