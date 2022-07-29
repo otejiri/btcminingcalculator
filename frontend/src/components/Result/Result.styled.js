@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 const ResultCard = styled.div`
-border-top: 2px solid black;
-background: silver:
-padding: 5px;
+  border-top: 2px solid black;
+  padding: 5px;
 `;
 const ResultHeader = styled.div`
   display: grid;
@@ -27,5 +26,8 @@ const ResultItem = styled.div`
   justify-items: center;
   align-items: center;
   margin: 0 0 10px 0;
+
+ 
+}
 `;
 export { ResultCard, ResultHeader, ResultLine, ResultItem };

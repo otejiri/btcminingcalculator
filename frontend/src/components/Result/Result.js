@@ -25,15 +25,36 @@ const Result = (props) => {
     const count = index + 1;
     const device = item["info"];
     return (
-      <Fragment>
+      <div>
         <div style={{ fontWeight: "bold", marginLeft: "20px" }}>
           {" "}
           {device.name}{" "}
+          <sup
+            style={{
+              fontSize: "xx-small",
+              background: "orange",
+              color: "black",
+              padding: "3px",
+              borderRadius: "5px",
+            }}
+          >
+            {" "}
+            X {item.num}
+          </sup>
         </div>
 
         <ResultItem key={device.name}>
           <div> {count} </div>
-          <div>{device.type.toUpperCase()}</div>
+          <div
+            style={{
+              background: "#4267B2",
+              color: "white",
+              padding: "2px",
+              borderRadius: "2px",
+            }}
+          >
+            {device.type.toUpperCase()}
+          </div>
           <div> {Math.round(Converter(device.speed, "th", "h"))} TH/s </div>
           <div> {device.power} </div>
           <div> {device.num} </div>
@@ -42,7 +63,7 @@ const Result = (props) => {
         <div style={{ width: "100%" }}>{alignSpecifications(device.specs)}</div>
 
         <ResultLine />
-      </Fragment>
+      </div>
     );
   });
   return (
