@@ -27,7 +27,7 @@ module.exports.Converter = (value, newUnit, currUnit) => {
   if ((newUnit || "gh") in fmt) {
     const val = value;
     const hash = val / fmt[currUnit];
-    const convertedHash = toPlainString(hash * fmt[newUnit]);
+    const convertedHash = toPlainString((hash * fmt[newUnit]).toFixed(2));
     return convertedHash;
   }
 
