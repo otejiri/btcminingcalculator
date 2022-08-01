@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Countries } from "../../common/country";
 import { Currencies } from "../../common/currency";
+import { Converter } from "../../common/hash-converter";
 import Input from "../../ui/Input";
 import Result from "../Result/Result";
 import { Main, ResultContainer } from "./Body.styled";
@@ -11,6 +12,7 @@ const CurrencyList = Currencies;
 const Body = () => {
   const [data, setData] = useState([]);
   const [profitValue, setProfitValue] = useState("");
+  const [currency, setCurrency] = useState("USD");
 
   useEffect(() => {
     console.log(data);
@@ -18,7 +20,10 @@ const Body = () => {
   const onProfitValueChange = (val) => {
     setProfitValue(val);
   };
-
+  const onCurrencyChange = (val) => {
+    console.log(val);
+    setCurrency(val);
+  };
   const onProfitSubmit = () => {
     if (!profitValue.match(/^-?\d+$/)) {
       console.log("error");
@@ -31,7 +36,12 @@ const Body = () => {
       .catch((error) => console.log(error));
   };
   useEffect(() => {}, [data]);
-
+  const hashPower = parseFloat(Converter(data["hashPower"], "th", "h")).toFixed(
+    2
+  );
+  const hashTotal = parseFloat(
+    Converter(data["devicesHashTotal"], "th", "h")
+  ).toFixed(2);
   return (
     <Fragment>
       <Main>
@@ -46,15 +56,17 @@ const Body = () => {
             type="select"
             name="Currency"
             option={CurrencyList}
-            label="USD"
+            inputHandler={(val) => onCurrencyChange(val)}
           />
           <Input
             type="text"
-            textInputHandler={(val) => onProfitValueChange(val)}
+            inputHandler={(val) => onProfitValueChange(val)}
             label="Profit (daily)"
           />
-          <Input type="text" label="Power Consumption (optional)" />
-          <Input type="text" label="Cost Per KWh (optional)" />
+          <Input
+            type="text"
+            label={`Electricity ${currency} Cost Per KWh (optional)`}
+          />
           <button
             onClick={() => onProfitSubmit()}
             style={{ width: "100%", height: "50px" }}
@@ -65,6 +77,9 @@ const Body = () => {
       </Main>
       {data["devices"]?.length > 0 && (
         <ResultContainer>
+          <div>
+            {data["noOfDevices"]} | {hashPower} | {hashTotal}
+          </div>
           <Result devicesList={data["devices"]} />
         </ResultContainer>
       )}

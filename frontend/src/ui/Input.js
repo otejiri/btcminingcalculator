@@ -11,6 +11,8 @@ const Input = (props) => {
   const [selectOption, setSelectOption] = useState(props.option);
   const [label, setLabel] = useState(props.label);
   const [textInputValue, setTextInputValue] = useState("");
+  const [selectInputValue, setSelectInputValue] = useState("USD");
+
   const [selectName] = useState(props.name);
 
   if (props.type === "select" && !selectOption) {
@@ -19,8 +21,13 @@ const Input = (props) => {
   }
 
   const onTextInputChange = (e) => {
-    props.textInputHandler(e.target.value);
+    props.inputHandler(e.target.value);
     setTextInputValue(e.target.value);
+  };
+
+  const onSelectInputChange = (e) => {
+    props.inputHandler(e.target.value);
+    setSelectInputValue(e.target.value);
   };
 
   useEffect(() => {}, [textInputValue]);
@@ -54,7 +61,11 @@ const Input = (props) => {
             <InputLabel>{selectName}</InputLabel>
           </LabelContainer>
 
-          <SelectInput offset={-150}>
+          <SelectInput
+            offset={-150}
+            value={selectInputValue}
+            onChange={onSelectInputChange}
+          >
             <option value="" hidden>
               {label}
             </option>

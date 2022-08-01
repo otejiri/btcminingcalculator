@@ -6837,142 +6837,7 @@ const devicesArray = [
       OpenCL: 2,
     },
   },
-  {
-    id: "54ceb91256e8190e474aa752a6e0650a2df5ba37",
-    name: "AMD RX 470",
-    url: "amd-rx-470",
-    type: "gpu",
-    brand: "AMD",
-    algorithms: {
-      BCD: { speed: 9470540.5, power: 75 },
-      C11: { speed: 10286876, power: 97 },
-      CNReverseWaltz: { speed: 1027.667, power: 93 },
-      CryptoNight: { speed: 361.05, power: 44 },
-      CryptoNightR: { speed: 720.25, power: 51 },
-      CryptoNightV7: { speed: 689.5, power: 59 },
-      CryptoNightV8: { speed: 691.275, power: 55 },
-      Equihash: { speed: 254.167, power: 54 },
-      "Equihash(144,5)": { speed: 22.98, power: 86 },
-      "Equihash(150,5)": { speed: 9.133, power: 62 },
-      "Equihash(192,7)": { speed: 13.945, power: 64 },
-      "Equihash(210,9)": { speed: 82.334, power: 56 },
-      "Equihash(96,5)": { speed: 11060.15, power: 75 },
-      Ethash: { speed: 31567800, power: 70 },
-      Etchash: { speed: 31567800, power: 70 },
-      Lyra2REv3: { speed: 31185049, power: 117 },
-      Lyra2z: { speed: 2500000, power: 117 },
-      PHI1612: { speed: 13408116, power: 90 },
-      PHI2: { speed: 3930000, power: 109 },
-      ProgPow: { speed: 7597833.333, power: 101 },
-      TimeTravel10: { speed: 17145619.636, power: 74 },
-      Tribus: { speed: 37555560.375, power: 77 },
-      Ubqhash: { speed: 20752849.191, power: 84 },
-      X16R: { speed: 7989995, power: 109 },
-      X16RT: { speed: 8180381.5, power: 107 },
-      X16S: { speed: 7546462, power: 92 },
-      X17: { speed: 7616173, power: 71 },
-      X21S: { speed: 5754343.75, power: 72 },
-      X22i: { speed: 4451076.75, power: 72 },
-      Xevan: { speed: 2478864.333, power: 90 },
-      Zhash: { speed: 22.32, power: 90 },
-      Astralhash: { speed: 12788519.6, power: 94 },
-      BMW512: { speed: 356129901, power: 82 },
-      BeamHashII: { speed: 13.694, power: 60 },
-      "Blake (2b)": { speed: 969745013.833, power: 84 },
-      "Blake (2b-BTCC)": { speed: 0, power: 0 },
-      Chukwa: { speed: 50642.239, power: 104 },
-      CryptoNightAlloy: { speed: 345.375, power: 45 },
-      CryptoNightArto: { speed: 679.428, power: 45 },
-      CryptoNightConceal: { speed: 1421.75, power: 46 },
-      CryptoNightFast: { speed: 1394.864, power: 67 },
-      CryptoNightFastV2: { speed: 1389.5, power: 49 },
-      CryptoNightGPU: { speed: 560.16, power: 79 },
-      CryptoNightHaven: { speed: 821.725, power: 74 },
-      CryptoNightHeavy: { speed: 980.607, power: 68 },
-      CryptoNightHeavyX: { speed: 364.367, power: 74 },
-      CryptoNightLiteV7: { speed: 1249.117, power: 58 },
-      CryptoNightSaber: { speed: 815.203, power: 63 },
-      CryptoNightStelliteV4: { speed: 666.205, power: 61 },
-      CryptoNightStelliteV5: { speed: 1549.354, power: 0 },
-      CryptoNightTurtle: { speed: 5828.333, power: 66 },
-      CryptoNightUPX2: { speed: 22900, power: 48 },
-      CryptoNightWOW: { speed: 687.778, power: 53 },
-      CryptoNightZLS: { speed: 841.355, power: 84 },
-      Cuckaroo29S: { speed: 2.08, power: 106 },
-      CuckooCycle: { speed: 1.838, power: 72 },
-      Dedal: { speed: 7691662.167, power: 118 },
-      "Equihash(125,4)": { speed: 13.898, power: 110 },
-      Globalhash: { speed: 32394850, power: 86 },
-      HMQ1725: { speed: 4908784, power: 71 },
-      HoneyComb: { speed: 21082768, power: 90 },
-      Jeonghash: { speed: 6321625.333, power: 83 },
-      Lyra2REv2: { speed: 27313907, power: 118 },
-      Lyra2vc0ban: { speed: 25634770.125, power: 117 },
-      Padihash: { speed: 5858741.833, power: 118 },
-      Pawelhash: { speed: 5558211, power: 62 },
-      ProgPowSERO: { speed: 8393000, power: 72 },
-      Skein2: { speed: 258048862.5, power: 91 },
-      Skunkhash: { speed: 20939432.5, power: 118 },
-      SonoA: { speed: 1199673.667, power: 118 },
-      X16RTVEIL: { speed: 8351836, power: 74 },
-      X16Rv2: { speed: 6805976.667, power: 79 },
-      X18: { speed: 6232689.364, power: 70 },
-      X25X: { speed: 832603, power: 68 },
-      cuckARoo29: { speed: 1.51, power: 69 },
-      cuckARood29: { speed: 2.17, power: 70 },
-      cuckAToo31: { speed: 0.425, power: 102 },
-      RainForest: { speed: 0, power: 0 },
-      CryptoNightB2N: { speed: 1056.375, power: 0 },
-      CryptoNightItalo: { speed: 907.6, power: 0 },
-      CryptoNightUPX: { speed: 0, power: 0 },
-      NeoScrypt: { speed: 787000, power: 118 },
-      Pascal: { speed: 0, power: 0 },
-      "Blake (2s)": { speed: 2363160049.373, power: 68 },
-      "Equihash+Scrypt": { speed: 8534.836, power: 71 },
-      Eaglesong: { speed: 304638721.685, power: 91 },
-      "Blake (2s-Kadena)": { speed: 406633000, power: 94 },
-      CryptoNightTalleo: { speed: 0, power: 0 },
-      CuckooBFC: { speed: 46.439, power: 85 },
-      RandomX: { speed: 393.7, power: 56 },
-      Handshake: { speed: 113400000, power: 101 },
-      RandomSFX: { speed: 470.376, power: 71 },
-      KAWPOW: { speed: 8615500, power: 109 },
-      X17R: { speed: 6486148, power: 86 },
-      cuckARoom29: { speed: 2.593, power: 82 },
-      Tellor: { speed: 160011398.859, power: 78 },
-      BeamHashIII: { speed: 14.025, power: 73 },
-      cuckAToo32: { speed: 0.145, power: 65 },
-      Octopus: { speed: 5044250, power: 100 },
-      Chukwa2: { speed: 18333.333, power: 64 },
-      ProgPowZ: { speed: 8405202.667, power: 62 },
-      vProgPow: { speed: 4088307.273, power: 76 },
-      Cuckaroo29b: { speed: 2.21, power: 58 },
-      Hex: { speed: 7643963.667, power: 116 },
-      KangarooTwelve: { speed: 787183524.725, power: 118 },
-      VerusHash: { speed: 3901504.178, power: 77 },
-      "Argon2d-ninja": { speed: 0.075, power: 113 },
-      RandomKEVA: { speed: 430.963, power: 0 },
-      X11k: { speed: 1578246, power: 91 },
-      "SHA-256csm": { speed: 632356786, power: 86 },
-      Autolykos2: { speed: 51022605, power: 76 },
-      Phi5: { speed: 12.058, power: 95 },
-      Verthash: { speed: 410831.391, power: 45 },
-      HeavyHash: { speed: 135319367.5, power: 73 },
-      Circcash: { speed: 925723.704, power: 74 },
-      "0x10": { speed: 11190583, power: 100 },
-      SHA3d: { speed: 158396146189285, power: 90 },
-    },
-    specs: {
-      "Base Frequency": "926 MHz",
-      "Boost Frequency": "1206 MHz",
-      "Typical Board Power (Desktop)": "120 W",
-      "Max Memory Size": "8 GB",
-      "Max Memory Bandwidth": "211 GB/s",
-      "Memory Type": "GDDR5",
-      OpenGL: 4.5,
-      OpenCL: 2,
-    },
-  },
+
   {
     id: "9109c85a45b703f87f1413a405549a2cea9ab556",
     name: "AMD RX 480",
@@ -10632,20 +10497,20 @@ const devicesArray = [
 
 module.exports.getDevices = async (value) => {
   const array = [];
+
   for (let i = 0; i < devicesArray.length; i++) {
     const ob = devicesArray[i]["algorithms"];
     for (var key in ob) {
       if (ob.hasOwnProperty(key)) {
-        const speed = Converter(ob[key]["speed"], "th", "h");
-        //   if (speed === 67608000000) {
-        //     console.log(devicesArray[i]);
-        //     console.log(ob[key]);
-        //   }
-        array.push(speed);
+        const speed = ob[key]["speed"];
+        array.push({
+          name: devicesArray[i]["name"],
+          speed: speed,
+          power: ob[key]["power"],
+        });
       }
     }
   }
-
   const numOfTimes = [];
   const remainder = [];
 
@@ -10655,16 +10520,21 @@ module.exports.getDevices = async (value) => {
   let diff = true;
   let hashPower = 0;
 
-  hashPower = Converter(value, "th", "h");
+  hashPower = value;
   const modulo = async () => {
     for (let i = 0; i < array.length; i++) {
-      let num = hashPower / array[i];
-      let rem = hashPower % array[i];
+      let num = hashPower / array[i]["speed"];
+      let rem = hashPower % array[i]["speed"];
 
       if (num >= 1) {
         numOfTimes.push(num);
         remainder.push(rem);
-        val.push({ val: array[i], no: Math.floor(num) });
+        val.push({
+          name: array[i]["name"],
+          val: array[i]["speed"],
+          power: array[i]["power"],
+          no: Math.floor(num),
+        });
       }
     }
 
@@ -10679,53 +10549,39 @@ module.exports.getDevices = async (value) => {
     data.push(val[index]);
     hashPower = valueLeft;
   };
-
   while (diff) {
     await modulo();
   }
+
   const deviceData = [];
-  const initialValue = 0;
 
   const hash = [];
-
   for (let k = 0; k < data.length; k++) {
     hash.push(data[k]["val"] * data[k]["no"]);
   }
-  const sumWithInitial = hash.reduce(
-    (previousValue, currentValue) =>
-      parseInt(previousValue) + parseInt(currentValue),
-    initialValue
-  );
-
   for (let i = 0; i < devicesArray.length; i++) {
-    const ob = devicesArray[i]["algorithms"];
-    for (var key in ob) {
-      if (ob.hasOwnProperty(key)) {
-        s = ob[key]["speed"];
-        const speed = Converter(s, "th", "h");
-        for (let j = 0; j < data.length; j++) {
-          const sp = data[j]["val"];
-          if (speed === sp) {
-            let num = data[j]["no"];
-            let info = {
-              name: devicesArray[i]["name"],
-              speed: ob[key]["speed"],
-              power: ob[key]["power"],
-              url: devicesArray[i]["url"],
-              type: devicesArray[i]["type"],
-              brand: devicesArray[i]["brand"],
-              algorithm: key,
-              specs: devicesArray[i]["specs"],
-            };
-            deviceData.push({
-              totalHash: sumWithInitial,
-              info: info,
-              num: num,
-            });
-          }
-        }
+    for (let j = 0; j < data.length; j++) {
+      const name = data[j]["name"];
+      if (devicesArray[i]["name"] === name) {
+        let num = data[j]["no"];
+        let info = {
+          name: devicesArray[i]["name"],
+          speed: data[j]["val"],
+          power: data[j]["power"],
+          url: devicesArray[i]["url"],
+          type: devicesArray[i]["type"],
+          brand: devicesArray[i]["brand"],
+          algorithm: key,
+          specs: devicesArray[i]["specs"],
+        };
+        deviceData.push({
+          info: info,
+          num: num,
+        });
       }
     }
   }
-  return deviceData;
+
+  const devicesList = deviceData;
+  return devicesList;
 };

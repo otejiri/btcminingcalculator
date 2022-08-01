@@ -1,14 +1,13 @@
 const axios = require("axios");
-const { Converter } = require("../../frontend/src/common/hash-converter");
 const { getDevices } = require("../functions/devices-lookup");
 const Profitability = require("../functions/profitability");
+const {
+  AddArrayValues,
+} = require("../../frontend/src/common/sum-array-values");
 const { apiRes } = require("../res");
+const { getBtcInfo } = require("../functions/getBtcInfo");
 
 require("dotenv").config();
-
-const getList = async (hashPower) => {
-  return getDevices(hashPower);
-};
 
 exports.getProfitability = async (req, res, next) => {
   const profitAmount = req.query.profit;
@@ -16,21 +15,38 @@ exports.getProfitability = async (req, res, next) => {
   const r = apiRes;
 
   // const profitabilty = new Profitability(await btcInfo());
-  const profitabilty = new Profitability(r, profitAmount);
 
-  const hashPower = profitabilty.getProfit();
-  const convertedHashPower = parseFloat(
-    Converter(hashPower, "th", "h")
-  ).toFixed(2);
+  const btcInfoResponse = await getBtcInfo();
+  const btcInfoData = btcInfoResponse["data"][0];
 
-  const devices = await getList(hashPower);
+  const profitabilty = new Profitability(r, profitAmount, btcInfoData);
+
+  const hashPower = profitabilty.getHashPower();
+
+  const devices = await getDevices(hashPower);
+
+  const totalDevices = [];
+  const totalHash = [];
+
+  for (let i = 0; i < devices.length; i++) {
+    totalDevices.push(devices[i]["num"]);
+  }
+  for (let j = 0; j < devices.length; j++) {
+    totalHash.push(devices[j]["info"]["speed"] * devices[j]["num"]);
+  }
+
+  const deviceTotal = await AddArrayValues(totalDevices);
+  const hashTotal = await AddArrayValues(totalHash);
+
   const response = {
     status: true,
     data: {
-      hashPower: convertedHashPower,
+      hashPower: hashPower,
+      devicesHashTotal: hashTotal,
+      noOfDevices: deviceTotal,
       devices: devices,
     },
   };
-  console.log(response);
+
   res.status(200).send(response);
 };
