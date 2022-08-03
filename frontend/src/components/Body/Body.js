@@ -42,6 +42,8 @@ const Body = () => {
   const hashTotal = parseFloat(
     Converter(data["devicesHashTotal"], "th", "h")
   ).toFixed(2);
+
+  console.log(data);
   return (
     <Fragment>
       <Main>

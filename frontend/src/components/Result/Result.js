@@ -1,30 +1,30 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Converter } from "../../common/hash-converter";
 import { ResultCard, ResultItem, ResultLine } from "./Result.styled";
-
+import { BrowserRouter as Router, Link } from "react-router-dom";
 const Result = (props) => {
   const [itemsList, setItemsList] = useState([]);
   useEffect(() => {
     setItemsList(props.devicesList);
   }, [props.devicesList]);
-  const alignSpecifications = (specs) => {
-    const it = [];
-    for (const key in specs) {
-      it.push(`${key}: ${specs[key]}`);
-    }
-    return it.map((spec, index) => {
-      return (
-        <div style={{ fontSize: "small" }} key={spec}>
-          {spec}
-        </div>
-      );
-    });
-  };
+  //   const alignSpecifications = (specs) => {
+  //     const it = [];
+  //     for (const key in specs) {
+  //       it.push(`${key}: ${specs[key]}`);
+  //     }
+  //     return it.map((spec, index) => {
+  //       return (
+  //         <div style={{ fontSize: "small" }} key={spec}>
+  //           {spec}
+  //         </div>
+  //       );
+  //     });
+  //   };
   const items = itemsList.map((item, index) => {
     const count = index + 1;
-    const device = item["info"];
+    const device = item;
     return (
-      <div key={item + index}>
+      <div key={device.id}>
         <div style={{ fontWeight: "bold", marginLeft: "20px" }}>
           {" "}
           {device.name}{" "}
@@ -38,7 +38,7 @@ const Result = (props) => {
             }}
           >
             {" "}
-            X {item.num}
+            X {item.times}
           </sup>
         </div>
 
@@ -52,14 +52,25 @@ const Result = (props) => {
               borderRadius: "2px",
             }}
           >
-            {device.type.toUpperCase()}
+            ASIC{" "}
           </div>
-          <div> {Converter(device.speed, "th", "h")} TH/s </div>
+          <div> {Converter(device.hash, "th", "h")} TH/s </div>
           <div> {device.power} </div>
-          <div> {device.num} </div>
-          <div> $56565 </div>
+          <div> {device.times} </div>
+          <div>
+            <a
+              style={{ decoration: "none" }}
+              href={device.link}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {device.cost}
+            </a>
+          </div>
         </ResultItem>
-        <div style={{ width: "100%" }}>{alignSpecifications(device.specs)}</div>
+        <div style={{ width: "100%", fontSize: "small" }}>
+          Release: {item.release} | Noise: {item.noise}db
+        </div>
 
         <ResultLine />
       </div>

@@ -19,100 +19,64 @@ const filterDevices = async () => {
   return true;
 };
 
+const DeviceList = require("../models");
+
 module.exports.getDevices = async (value) => {
-  await filterDevices();
-  console.log(devicesArray);
-  const array = [];
-  for (let i = 0; i < devicesArray.length; i++) {
-    const ob = devicesArray[i]["algorithms"];
-    for (var key in ob) {
-      if (ob.hasOwnProperty(key)) {
-        const speed = Converter(ob[key]["speed"], "th", "h");
+  const devicesList = await DeviceList.findAll();
+  // create array of hashes and ids
 
-        array.push(speed);
-      }
-    }
-  }
+  // list of timesInto to get minimum value of div
   const numOfTimes = [];
-  const remainder = [];
 
-  const val = [];
+  // list of remainders
+  const remainderList = [];
+
+  const resultFromCalc = [];
   const data = [];
 
-  let diff = true;
-  let hashPower = 0;
+  let runCalc = true;
 
-  hashPower = Converter(value, "th", "h");
-  const modulo = async () => {
-    for (let i = 0; i < array.length; i++) {
-      let num = hashPower / array[i];
-      let rem = hashPower % array[i];
+  // hashpower from profil calculation
+  let hashPower = value;
 
-      if (num >= 1) {
-        numOfTimes.push(num);
-        remainder.push(rem);
-        val.push({ val: array[i], no: Math.floor(num) });
+  const deviceCalc = async () => {
+    for (let j = 0; j < devicesList.length; j++) {
+      const hashFromHashList = devicesList[j]["hash"];
+      device = devicesList[j].dataValues;
+
+      // calculation to get different hash to reach total profit hash
+      // e.g if four device hash is [5,9,11,2,6] and total profit hash is 15, calculation should present [9,6]
+      // absolute division value
+      let timesInto = hashPower / hashFromHashList;
+
+      // value left after division
+      let remainder = hashPower % hashFromHashList;
+
+      if (timesInto >= 1) {
+        numOfTimes.push(timesInto);
+        remainderList.push(remainder);
+        resultFromCalc.push({
+          ...device,
+          times: Math.floor(timesInto),
+        });
       }
     }
-
+    // minimum number of times for division
     let minTimes = Math.min(...numOfTimes);
+
     let index = numOfTimes.indexOf(minTimes);
-    let valueLeft = remainder[index];
+    let valueLeft = remainderList[index];
 
     if (valueLeft === hashPower) {
-      diff = false;
+      runCalc = false;
       return false;
     }
-    data.push(val[index]);
+    data.push(resultFromCalc[index]);
     hashPower = valueLeft;
   };
-  while (diff) {
-    await modulo();
+  console.log(data);
+  while (runCalc) {
+    await deviceCalc();
   }
-
-  const deviceData = [];
-  const initialValue = 0;
-
-  const hash = [];
-
-  for (let k = 0; k < data.length; k++) {
-    hash.push(data[k]["val"] * data[k]["no"]);
-  }
-  const sumWithInitial = hash.reduce(
-    (previousValue, currentValue) =>
-      parseInt(previousValue) + parseInt(currentValue),
-    initialValue
-  );
-
-  for (let i = 0; i < devicesArray.length; i++) {
-    const ob = devicesArray[i]["algorithms"];
-    for (var key in ob) {
-      if (ob.hasOwnProperty(key)) {
-        s = ob[key]["speed"];
-        const speed = Converter(s, "th", "h");
-        for (let j = 0; j < data.length; j++) {
-          const sp = data[j]["val"];
-          if (speed === sp) {
-            let num = data[j]["no"];
-            let info = {
-              name: devicesArray[i]["name"],
-              speed: ob[key]["speed"],
-              power: ob[key]["power"],
-              url: devicesArray[i]["url"],
-              type: devicesArray[i]["type"],
-              brand: devicesArray[i]["brand"],
-              algorithm: key,
-              specs: devicesArray[i]["specs"],
-            };
-            deviceData.push({
-              totalHash: sumWithInitial,
-              info: info,
-              num: num,
-            });
-          }
-        }
-      }
-    }
-  }
-  return deviceData;
+  return data;
 };

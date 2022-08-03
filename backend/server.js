@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 const Routes = require("./routes");
+const connection = require("./util/database");
+
+const models = require("./models");
 
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -16,6 +19,11 @@ app.all("/*", function (req, res, next) {
 
 app.get("/", Routes);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+connection
+  .sync()
+  .then((result) => {
+    app.listen(PORT);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
