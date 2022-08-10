@@ -1,82 +1,75 @@
 const { Converter } = require("../../frontend/src/common/hash-converter");
 const { getDevicesInfo } = require("./getDevicesInfo");
 
-// this function transfors the returned devices list to include only bitcoin sha-256 algorithms
-let devicesArray = [];
-const filterDevices = async () => {
-  devicesArray = [];
-  const array = await getDevicesInfo();
-  const nameCheck = [];
-  for (let i = 0; i < array.length; i++) {
-    const ob = array[i]["algorithms"];
-    for (var key in ob) {
-      var k = key.toLowerCase();
-      if (k === "sha-256" && !nameCheck.includes(array[i]["name"])) {
-        devicesArray.push(array[i]);
-      }
-    }
-  }
-  return true;
-};
-
 const DeviceList = require("../models");
 
 module.exports.getDevices = async (value) => {
   const devicesList = await DeviceList.findAll();
   // create array of hashes and ids
 
-  // list of timesInto to get minimum value of div
-  const numOfTimes = [];
+  function calc(val) {
+    const profitHash = val;
 
-  // list of remainders
-  const remainderList = [];
+    const calcObj = [];
+    for (let i = 0; i < devicesList.length; i++) {
+      let iterHash = devicesList[i]["hash"];
+      let timesInto = Math.floor(profitHash / iterHash);
+      let hashValueLeft = profitHash % iterHash;
+      let index = devicesList[i]["id"];
 
-  const resultFromCalc = [];
-  const data = [];
+      let name = devicesList[i]["name"];
+      let link = devicesList[i]["link"];
+      let noise = devicesList[i]["noise"];
+      let release = devicesList[i]["release"];
+      let cost = devicesList[i]["cost"];
 
-  let runCalc = true;
-
-  // hashpower from profil calculation
-  let hashPower = value;
-
-  const deviceCalc = async () => {
-    for (let j = 0; j < devicesList.length; j++) {
-      const hashFromHashList = devicesList[j]["hash"];
-      device = devicesList[j].dataValues;
-
-      // calculation to get different hash to reach total profit hash
-      // e.g if four device hash is [5,9,11,2,6] and total profit hash is 15, calculation should present [9,6]
-      // absolute division value
-      let timesInto = hashPower / hashFromHashList;
-
-      // value left after division
-      let remainder = hashPower % hashFromHashList;
-
+      let obj = {
+        index,
+        iterHash,
+        timesInto,
+        hashValueLeft,
+        name,
+        link,
+        noise,
+        release,
+        cost,
+      };
       if (timesInto >= 1) {
-        numOfTimes.push(timesInto);
-        remainderList.push(remainder);
-        resultFromCalc.push({
-          ...device,
-          times: Math.floor(timesInto),
-        });
+        calcObj.push(obj);
       }
     }
-    // minimum number of times for division
-    let minTimes = Math.min(...numOfTimes);
-
-    let index = numOfTimes.indexOf(minTimes);
-    let valueLeft = remainderList[index];
-
-    if (valueLeft === hashPower) {
-      runCalc = false;
-      return false;
-    }
-    data.push(resultFromCalc[index]);
-    hashPower = valueLeft;
-  };
-  console.log(data);
-  while (runCalc) {
-    await deviceCalc();
+    return calcObj;
   }
-  return data;
+  function run(val) {
+    const initSet = calc(val);
+    const finalCalcSet = [];
+    for (let i = 0; i < initSet.length; i++) {
+      const loopedDevice = initSet[i];
+      const stagedDeviceSet = [loopedDevice];
+      if (loopedDevice.hashValueLeft > 0) {
+        let keepAlive = true;
+        let newValueLeft = loopedDevice.hashValueLeft;
+        while (keepAlive) {
+          const reCalcSet = calc(newValueLeft);
+          if (reCalcSet.length > 0) {
+            const device = reCalcSet[0];
+            stagedDeviceSet.push(device);
+            newValueLeft = device.hashValueLeft;
+          } else {
+            keepAlive = false;
+          }
+        }
+        finalCalcSet.push(stagedDeviceSet);
+      } else {
+        finalCalcSet.push(stagedDeviceSet);
+      }
+    }
+    const result = {
+      profitHash: value,
+      data: finalCalcSet,
+    };
+    return result;
+  }
+
+  console.log(run(value));
 };
