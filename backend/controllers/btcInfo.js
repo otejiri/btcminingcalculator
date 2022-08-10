@@ -24,29 +24,8 @@ exports.getProfitability = async (req, res, next) => {
   const hashPower = profitabilty.getHashPower();
 
   const devices = await getDevices(hashPower);
-  const totalDevices = [];
-  const totalHash = [];
-  for (let i = 0; i < devices.length; i++) {
-    totalDevices.push(devices[i]["times"]);
-  }
-  for (let j = 0; j < devices.length; j++) {
-    totalHash.push(devices[j]["hash"] * devices[j]["times"]);
-  }
 
-  const deviceTotal = await AddArrayValues(totalDevices);
-  const hashTotal = await AddArrayValues(totalHash);
+  console.log(devices["data"][0]["summary"]);
 
-  const response = {
-    status: true,
-    data: {
-      hashPower: hashPower,
-      devicesHashTotal: hashTotal,
-      noOfDevices: deviceTotal,
-      devices: devices,
-    },
-  };
-
-  console.log(response);
-
-  res.status(200).send(response);
+  res.status(200).send(devices);
 };

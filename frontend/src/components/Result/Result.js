@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Converter } from "../../common/hash-converter";
 import { ResultCard, ResultItem, ResultLine } from "./Result.styled";
-import { BrowserRouter as Router, Link } from "react-router-dom";
 const Result = (props) => {
   const [itemsList, setItemsList] = useState([]);
   useEffect(() => {

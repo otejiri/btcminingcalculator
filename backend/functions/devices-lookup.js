@@ -22,6 +22,7 @@ module.exports.getDevices = async (value) => {
       let noise = devicesList[i]["noise"];
       let release = devicesList[i]["release"];
       let cost = devicesList[i]["cost"];
+      let power = devicesList[i]["power"];
 
       let obj = {
         index,
@@ -33,6 +34,7 @@ module.exports.getDevices = async (value) => {
         noise,
         release,
         cost,
+        power,
       };
       if (timesInto >= 1) {
         calcObj.push(obj);
@@ -43,6 +45,7 @@ module.exports.getDevices = async (value) => {
   function run(val) {
     const initSet = calc(val);
     const finalCalcSet = [];
+
     for (let i = 0; i < initSet.length; i++) {
       const loopedDevice = initSet[i];
       const stagedDeviceSet = [loopedDevice];
@@ -64,12 +67,43 @@ module.exports.getDevices = async (value) => {
         finalCalcSet.push(stagedDeviceSet);
       }
     }
+
+    const constructedSet = [];
+
+    for (let j = 0; j < finalCalcSet.length; j++) {
+      const final = finalCalcSet[j];
+
+      let totalDevice = 0;
+      let totalHash = 0;
+      let totalPower = 0;
+      let totalNoise = 0;
+      let totalCost = 0;
+
+      for (let k = 0; k < final.length; k++) {
+        totalDevice = totalDevice + final[k]["timesInto"];
+        totalHash = totalHash + final[k]["iterHash"] * final[k]["timesInto"];
+        totalPower = totalPower + final[k]["power"] * final[k]["timesInto"];
+        totalNoise = totalNoise + final[k]["noise"] * final[k]["timesInto"];
+        totalCost = totalCost + final[k]["cost"] * final[k]["timesInto"];
+      }
+      let obj = {
+        totalDevice,
+        totalHash,
+        totalPower,
+        totalNoise,
+        totalCost,
+      };
+      let responseData = { ...obj, devices: final };
+      constructedSet.push(responseData);
+    }
     const result = {
       profitHash: value,
-      data: finalCalcSet,
+      noOfSetup: constructedSet.length,
+      data: constructedSet,
     };
     return result;
   }
 
-  console.log(run(value));
+  let deviceSetup = run(value);
+  return deviceSetup;
 };
