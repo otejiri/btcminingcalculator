@@ -1,33 +1,57 @@
 import styled from "styled-components";
+import { devices } from "../../common/device.styled";
 
-const ResultCard = styled.div`
-  border-top: 2px solid black;
-  padding: 5px;
-`;
-const ResultHeader = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  font-weight: bold;
-  justify-items: center;
-  margin: 0 0 10px 0;
-`;
-const ResultLine = styled.hr`
-  border: 0;
-  clear: both;
-  display: block;
+const TableContainer = styled.div`
+  overflow: auto;
   width: 100%;
-  background-color: brown;
-  height: 4px;
 `;
-const ResultItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  justify-items: center;
-  align-items: center;
-  margin: 0 0 10px 0;
+const MainTable = styled.table`
+  border: 5px solid white;
+  margin: 30px 0;
+  cell-padding: 0;
+  cell-spacing: 0;
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: collapse;
+  width: 100%;
+`;
 
- 
-}
+const TableNo = styled.td`
+  background: ${(props) => (props.even ? "black" : "white")};
+  font-weight: bold;
+  color: ${(props) => (props.even ? "white" : "black")};
+  min-width: 20px;
 `;
-export { ResultCard, ResultHeader, ResultLine, ResultItem };
+const TableHeader = styled.tr`
+  background: ${(props) => (props.even ? "brown" : "#24292f")};
+  color: white;
+  font-weight: bold;
+`;
+
+const DeviceTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  & tr:nth-of-type(even) {
+    background: white;
+  }
+`;
+
+const DeviceTableCell = styled.td`
+  border: 1px solid black;
+  word-wrap: break-word;
+`;
+const SummaryRow = styled.td`
+  background: ${(props) => (props.even ? "brown" : "#24292f")};
+  font-weight: bold;
+  color: white;
+  word-wrap: break-word;
+`;
+export {
+  TableContainer,
+  MainTable,
+  TableNo,
+  TableHeader,
+  DeviceTable,
+  DeviceTableCell,
+  SummaryRow,
+};
