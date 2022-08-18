@@ -23,12 +23,12 @@ function toPlainString(num) {
 }
 
 // hashrate converter
-module.exports.Converter = (value, newUnit, currUnit) => {
+module.exports.HashConverter = (value, currUnit, newUnit) => {
   if ((newUnit || "gh") in fmt) {
     const val = value;
     const hash = val / fmt[currUnit];
     const convertedHash = toPlainString((hash * fmt[newUnit]).toFixed(2));
-    return convertedHash;
+    return Math.ceil(convertedHash);
   }
 
   return 1;

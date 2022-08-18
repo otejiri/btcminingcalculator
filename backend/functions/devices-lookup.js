@@ -1,5 +1,4 @@
 const { Converter } = require("../../frontend/src/common/hash-converter");
-const { getDevicesInfo } = require("./getDevicesInfo");
 
 const DeviceList = require("../models");
 

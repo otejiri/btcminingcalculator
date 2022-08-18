@@ -1,4 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { HashConverter } from "../../common/hash-converter";
+import { NumberWithCommas } from "../../common/number-comma-formatter";
+
 import {
   DeviceTable,
   DeviceTableCell,
@@ -11,16 +14,22 @@ import {
 
 const Result = (props) => {
   const [itemsList, setItemsList] = useState(props.deviceList);
+  const [freq, setFreq] = useState(props.frequency);
+
   useEffect(() => {
     setItemsList(props.devicesList);
   }, [props.devicesList]);
 
+  useEffect(() => {
+    setFreq(props.frequency);
+  }, [props.frequency]);
+
   const devices = itemsList?.map((item, index) => {
     const totalDevice = item["totalDevice"];
-    const totalHash = item["totalHash"];
-    const totalCost = Math.round(item["totalCost"]);
+    const totalHash = HashConverter(item["totalHash"], "h", freq);
+    const totalCost = NumberWithCommas(Math.round(item["totalCost"]));
     const totalNoise = item["totalNoise"];
-    const totalPower = item["totalPower"];
+    const totalPower = NumberWithCommas(item["totalPower"]);
 
     const device = item["devices"];
 
@@ -28,12 +37,20 @@ const Result = (props) => {
       return (
         <tr>
           <DeviceTableCell>{device.name}</DeviceTableCell>
-          <DeviceTableCell>{device.iterHash}</DeviceTableCell>
-          <DeviceTableCell>{device.power}</DeviceTableCell>
+          <DeviceTableCell>
+            {NumberWithCommas(HashConverter(device.iterHash, "h", freq))}
+            &nbsp;
+            {freq.toUpperCase()}/s
+          </DeviceTableCell>
+          <DeviceTableCell>{NumberWithCommas(device.power)}</DeviceTableCell>
           <DeviceTableCell>{device.noise}</DeviceTableCell>
           <DeviceTableCell>{device.release}</DeviceTableCell>
           <DeviceTableCell>{device.timesInto}</DeviceTableCell>
-          <DeviceTableCell>{device.cost}</DeviceTableCell>
+          <DeviceTableCell>
+            <a target="_blank" href={device.link}>
+              {NumberWithCommas(device.cost)}
+            </a>
+          </DeviceTableCell>
         </tr>
       );
     });
@@ -49,7 +66,7 @@ const Result = (props) => {
               <TableHeader even={even}>
                 <DeviceTableCell>Name</DeviceTableCell>
                 <DeviceTableCell>Hash</DeviceTableCell>
-                <DeviceTableCell>Power</DeviceTableCell>
+                <DeviceTableCell>Power (Watts)</DeviceTableCell>
                 <DeviceTableCell>Noise</DeviceTableCell>
                 <DeviceTableCell>Release</DeviceTableCell>
                 <DeviceTableCell>X</DeviceTableCell>
@@ -60,7 +77,11 @@ const Result = (props) => {
 
               <tr>
                 <SummaryRow even={even}>Total</SummaryRow>
-                <SummaryRow even={even}>{totalHash}</SummaryRow>
+                <SummaryRow even={even} freq={freq}>
+                  {totalHash}
+                  &nbsp;
+                  {freq.toUpperCase()}/s
+                </SummaryRow>
                 <SummaryRow even={even}>{totalPower}</SummaryRow>
                 <SummaryRow even={even}>{totalNoise}</SummaryRow>
                 <SummaryRow even={even}></SummaryRow>
