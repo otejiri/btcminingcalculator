@@ -46,6 +46,38 @@ const SummaryRow = styled.td`
   color: white;
   word-wrap: break-word;
 `;
+const Pagination = styled.div`
+  display: inline-block;
+  & a {
+    color: black;
+    float: left;
+    padding: 2px 4px;
+    text-decoration: none;
+    border: 1px solid #24292f;
+    background: white;
+    cursor: pointer;
+  }
+  & a:nth-child(${(props) => props.current}) {
+    background: brown;
+    color: white;
+    font-weight: bold;
+  }
+
+  & a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  & a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+`;
+const PageControls = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 export {
   TableContainer,
   MainTable,
@@ -54,4 +86,6 @@ export {
   DeviceTable,
   DeviceTableCell,
   SummaryRow,
+  Pagination,
+  PageControls,
 };
