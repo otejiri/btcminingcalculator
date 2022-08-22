@@ -24,6 +24,7 @@ const Result = (props) => {
   useEffect(() => {
     setItemsList(props.devicesList);
     setPage(Paginate(currentPage, 10, props.devicesList.length));
+    setCurrentPage(1);
   }, [props.devicesList]);
 
   useEffect(() => {
