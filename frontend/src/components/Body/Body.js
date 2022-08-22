@@ -11,6 +11,7 @@ const CountryList = Countries;
 const CurrencyList = Currencies;
 
 const Body = () => {
+  // https://arxiv.org/pdf/1112.4980v1.pdf
   const [data, setData] = useState([]);
   const [profitValue, setProfitValue] = useState("");
   const [currency, setCurrency] = useState("USD");
@@ -86,11 +87,15 @@ const Body = () => {
             <Input
               type="text"
               inputHandler={(val) => onProfitValueChange(val)}
-              label="Profit (daily)"
+              label={`Expected Daily Profit in ${currency}`}
             />
             <Input
               type="text"
-              label={`Electricity ${currency} Cost Per KWh (optional)`}
+              label={`Electricity Cost in ${currency} Per KWh (optional)`}
+            />
+            <Input
+              type="text"
+              label={`Total cost of other expenses in ${currency} (optional)`}
             />
             <button
               onClick={() => onProfitSubmit()}
