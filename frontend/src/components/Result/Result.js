@@ -25,6 +25,9 @@ const Result = (props) => {
     setItemsList(props.devicesList);
     setPage(Paginate(currentPage, 10, props.devicesList.length));
     setCurrentPage(1);
+    if (props.devicesList.length < 0) {
+      console.log("failed");
+    }
   }, [props.devicesList]);
 
   useEffect(() => {
@@ -51,7 +54,7 @@ const Result = (props) => {
       const totalDevice = item["totalDevice"];
       const totalHash = HashConverter(item["totalHash"], "h", freq);
       const totalCost = NumberWithCommas(Math.round(item["totalCost"]));
-      const totalNoise = item["totalNoise"];
+      const totalNoise = NumberWithCommas(item["totalNoise"]);
       const totalPower = NumberWithCommas(item["totalPower"]);
       const device = item["devices"];
 
@@ -72,7 +75,7 @@ const Result = (props) => {
             <DeviceTableCell>{device.timesInto}</DeviceTableCell>
             <DeviceTableCell>
               <a target="_blank" href={device.link}>
-                {NumberWithCommas(device.cost)}
+                ${NumberWithCommas(device.cost)}
               </a>
             </DeviceTableCell>
           </tr>
@@ -111,7 +114,7 @@ const Result = (props) => {
                   <SummaryRow even={even}>{totalNoise}</SummaryRow>
                   <SummaryRow even={even}></SummaryRow>
                   <SummaryRow even={even}>{totalDevice}</SummaryRow>
-                  <SummaryRow even={even}>{totalCost}</SummaryRow>
+                  <SummaryRow even={even}>${totalCost}</SummaryRow>
                 </tr>
               </DeviceTable>
             </td>

@@ -9,8 +9,6 @@ const app = express();
 const Routes = require("./routes");
 const connection = require("./util/database");
 
-const models = require("./models");
-
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");

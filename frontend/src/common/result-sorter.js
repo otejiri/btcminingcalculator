@@ -1,6 +1,5 @@
 // start of result sorting
 export const ResultSorter = (...argument) => {
-  console.log("sorting now");
   var args = argument,
     array = args[0],
     case_sensitive,

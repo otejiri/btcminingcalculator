@@ -2,40 +2,52 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Countries } from "../../common/country";
 import { Currencies } from "../../common/currency";
 import { ResultSorter } from "../../common/result-sorter";
-
+import { HashConverter } from "../../common/hash-converter";
 import Input from "../../ui/Input";
 import Result from "../Result/Result";
 import { Main, ResultContainer } from "./Body.styled";
+import { PoolList } from "../../common/pool";
 
 const CountryList = Countries;
 const CurrencyList = Currencies;
 
 const Body = () => {
-  // https://arxiv.org/pdf/1112.4980v1.pdf
   const [data, setData] = useState([]);
   const [profitValue, setProfitValue] = useState("");
   const [currency, setCurrency] = useState("USD");
+  const [country, setCountry] = useState("US");
   const [sortBy, setSortBy] = useState("");
   const [sortedData, setSortedData] = useState([]);
   const [freq, setFreq] = useState("th");
   const [showResult, setShowResult] = useState(false);
+  const [strategy, setStrategy] = useState("Solo Miner");
+  const [countryRisk, setCountryRisk] = useState("Unknown");
 
   const onProfitValueChange = (val) => {
     setProfitValue(val);
   };
-
+  const onStrategyChange = (val) => {
+    setStrategy(val);
+  };
   const onCurrencyChange = (val) => {
     setCurrency(val);
   };
-
+  const onCountryChange = (val) => {
+    setCountry(val);
+  };
   const onProfitSubmit = () => {
-    if (!profitValue.match(/^-?\d+$/)) {
+    if (!profitValue.match(/^[0-9]+([.][0-9]+)?$/)) {
+      alert("Enter valid amount");
       return false;
     }
-    const url = `http://localhost:3001/?profit=${profitValue}`;
+    const url = `http://localhost:3001/?profit=${profitValue}&pool=${strategy}&country=${country}`;
     fetch(url)
       .then((response) => response.json())
-      .then((json) => setData(json["data"]))
+      .then((json) => {
+        console.log(json["risk"]);
+        setCountryRisk(json["risk"]);
+        return setData(json["data"]);
+      })
       .then(setShowResult(true))
       .catch((error) => console.log(error));
   };
@@ -44,8 +56,11 @@ const Body = () => {
     setData(ResultSorter(sortedData, sortBy));
   }, [sortBy]);
 
+  useEffect(() => {}, [countryRisk]);
+
   useEffect(() => {
     // setData([]);
+    console.log(data);
   }, [data]);
 
   useEffect(() => {
@@ -65,6 +80,10 @@ const Body = () => {
   };
   const clearResults = () => {
     setShowResult(false);
+    setFreq("th");
+    setProfitValue("");
+    setCountryRisk("Unknown");
+
     setData([]);
   };
   return (
@@ -76,7 +95,8 @@ const Body = () => {
               type="select"
               option={CountryList}
               name="Country"
-              label=" --Choose Mining Country--"
+              inputHandler={(val) => onCountryChange(val)}
+              label="United States"
             />
             <Input
               type="select"
@@ -85,21 +105,28 @@ const Body = () => {
               inputHandler={(val) => onCurrencyChange(val)}
             />
             <Input
+              type="select"
+              option={PoolList}
+              name="Strategy"
+              inputHandler={(val) => onStrategyChange(val)}
+              label="Solo Miner"
+            />
+            <Input
               type="text"
               inputHandler={(val) => onProfitValueChange(val)}
               label={`Expected Daily Profit in ${currency}`}
             />
-            <Input
-              type="text"
-              label={`Electricity Cost in ${currency} Per KWh (optional)`}
-            />
-            <Input
-              type="text"
-              label={`Total cost of other expenses in ${currency} (optional)`}
-            />
             <button
               onClick={() => onProfitSubmit()}
-              style={{ width: "100%", height: "50px" }}
+              style={{
+                background: "brown",
+                color: "white",
+                width: "100%",
+                height: "50px",
+                border: "none",
+                cursor: "pointer",
+                borderRadius: "5px",
+              }}
             >
               Submit
             </button>
@@ -117,6 +144,35 @@ const Body = () => {
           {data.length > 0 && (
             <Fragment>
               <div>
+                <p>
+                  <span
+                    style={{
+                      background: "white",
+                      padding: "3px",
+                      marginRight: "3px",
+                    }}
+                  >
+                    Profit Hash:{" "}
+                  </span>{" "}
+                  <span style={{ color: "blue", fontWeight: "bold" }}>
+                    {HashConverter(+data[0]?.totalHash, "h", freq)}{" "}
+                    {freq.toUpperCase()}/s
+                  </span>
+                </p>
+                <p>
+                  <span
+                    style={{
+                      background: "white",
+                      padding: "3px",
+                      marginRight: "3px",
+                    }}
+                  >
+                    Country Risk Level:
+                  </span>{" "}
+                  <span style={{ color: "green", fontWeight: "bold" }}>
+                    {countryRisk ? countryRisk.toLocaleUpperCase() : "Unknown"}
+                  </span>
+                </p>
                 <label>Sort by </label>
                 <select value={sortBy} onChange={onSortChange}>
                   <option value="" hidden>

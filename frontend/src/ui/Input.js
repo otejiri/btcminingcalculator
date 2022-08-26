@@ -39,6 +39,10 @@ const Input = (props) => {
       val = opt.code;
       name = opt.name;
     }
+    if (selectName.toLowerCase() === "strategy") {
+      val = opt.code;
+      name = opt.name;
+    }
 
     if (selectName.toLowerCase() === "currency") {
       val = opt;

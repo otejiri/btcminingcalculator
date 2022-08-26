@@ -18,4 +18,15 @@ const DeviceList = connection.define("DeviceList", {
   link: Sequelize.STRING,
 });
 
-module.exports = DeviceList;
+const CountryRisk = connection.define("CountryRisk", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  name: Sequelize.STRING,
+  level: Sequelize.STRING,
+});
+
+module.exports = { DeviceList, CountryRisk };
